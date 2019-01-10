@@ -1,4 +1,4 @@
-Vectorize(AssignHash <- function(x, jhash, null.fill = NA){
+AssignHash <- function(x, jhash, null.fill = NA){
   # assign hash key to hash value, handle NULLs
   # null.fill = "original", returns original value x into jhash
   x.mapped <- jhash[[as.character(x)]]
@@ -12,4 +12,4 @@ Vectorize(AssignHash <- function(x, jhash, null.fill = NA){
     }
   } 
   return(x.mapped)
-}, vectorize.args = "x")
+}
