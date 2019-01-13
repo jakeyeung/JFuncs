@@ -22,6 +22,19 @@ StrToNumeric <- function(s){
   }
 }   
 
+StrToInteger <- function(s){
+  # string to integer, if fails then keep string as string
+  num <- as.integer(s)
+  if (is.na(num)){
+    if (s == "NA"){
+      return(NA)
+    } else {
+      return(s)
+    }
+  } else {
+    return(num)
+  }
+}   
 
 StrToBool <- function(s, default){
   if (s == "TRUE"){
