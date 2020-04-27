@@ -2,6 +2,21 @@
 library(methods)
 library(IRanges)
 
+Gene2Ensembl.ZF <- function(gene.list, return.original=TRUE, species = "drerio"){
+  library("biomaRt")
+  mart.obj <- useMart(biomart = "ENSEMBL_MART_ENSEMBL", dataset = paste0(species, "_gene_ensembl"), 
+                      host = "www.ensembl.org")
+  gos <- getBM(gene.list, attributes = c("external_gene_name", 
+                                         "ensembl_gene_id"), filters = c("external_gene_name"), 
+               mart = mart.obj)
+  gl <- gos[match(gene.list, gos[, 1]), 2]
+  print(paste0("Could not match ", length(gl[is.na(gl)]), " genes."))
+  if (return.original) {
+    gl[is.na(gl)] <- gene.list[is.na(gl)]
+  }
+  return(gl)
+}
+
 CapitalizeFirstLetter <- function(gene){
   # CRY1 -> Cry1
   return(paste(toupper(substr(gene, 1, 1)), tolower(substr(gene, 2, nchar(gene))), sep = ""))
