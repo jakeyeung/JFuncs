@@ -84,12 +84,28 @@ GetChromo <- function(x, add.chr = FALSE){
   return(chromo)
 }
 
-GetStart <- function(x){
+GetStart <- function(x, returnAsInt = FALSE){
   # chrY:90799295-90803056 -> 90799295
-  return(strsplit(strsplit(x, ":")[[1]][[2]], "-")[[1]][[1]])
+  if (grepl(":-", x)){
+    warning("Negative numbers found, returning 0")
+    return(0)
+  }
+  xstart <- strsplit(strsplit(x, ":")[[1]][[2]], "-")[[1]][[1]]
+  if (returnAsInt){
+    xstart <- as.integer(xstart)
+  }
+  return(xstart)
 }
 
-GetEnd <- function(x){
+GetEnd <- function(x, returnAsInt = FALSE){
   # chrY:90799295-90803056 -> 90799295
-  return(strsplit(strsplit(x, ":")[[1]][[2]], "-")[[1]][[2]])
+  if (grepl(":-", x)){
+    warning("Negative numbers found, returning, removing first '-'")
+    x <- sub(pattern = "-", replacement = "", x = x)
+  }
+  xend <- strsplit(strsplit(x, ":")[[1]][[2]], "-")[[1]][[2]]
+  if (returnAsInt){
+    xend <- as.integer(xend)
+  } 
+  return(xend)
 }
